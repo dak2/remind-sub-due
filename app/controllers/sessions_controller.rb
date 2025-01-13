@@ -5,6 +5,9 @@ class SessionsController < ApplicationController
   def new
   end
 
+  def callback
+  end
+
   def create
     if user = User.authenticate_by(params.permit(:email_address, :password))
       start_new_session_for user
@@ -18,4 +21,9 @@ class SessionsController < ApplicationController
     terminate_session
     redirect_to new_session_path
   end
+
+  private
+    def auth_hash
+      request.env['omniauth.auth']
+    end
 end
