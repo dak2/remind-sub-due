@@ -5,16 +5,27 @@ class SessionsController < ApplicationController
   def new
   end
 
-  def callback
-  end
-
   def create
-    if user = User.authenticate_by(params.permit(:email_address, :password))
+    user = User.find_or_initialize_by(uid: auth_hash['uid'])
+
+    if user.new_record?
+      user.email_address = auth_hash['info']['email']
+      user.name = auth_hash['info']['name']
+      user.save
       start_new_session_for user
       redirect_to after_authentication_url
-    else
-      redirect_to new_session_path, alert: "Try another email address or password."
     end
+
+    if user.email_address != auth_hash['info']['email']
+      user.email_address = auth_hash['info']['email']
+      user.save
+    end
+
+    start_new_session_for user
+    redirect_to after_authentication_url
+  rescue => e
+    Rails.logger.error "error: #{e.message}"
+    redirect_to new_session_path, alert: "Try again later."
   end
 
   def destroy

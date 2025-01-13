@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get "home/index"
+  root "home#index"
   get "home/dashboard"
   get "auth/:provider/callback", to: "sessions#create"
   get "auth/failure", to: redirect("/")
