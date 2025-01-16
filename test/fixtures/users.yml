@@ -1,0 +1,9 @@
+one:
+  email_address: one@example.com
+  name: one
+  uid: 1
+
+two:
+  email_address: two@example.com
+  name: two
+  uid: 2
