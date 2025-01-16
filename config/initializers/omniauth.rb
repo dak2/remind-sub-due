@@ -4,4 +4,4 @@ Rails.application.config.middleware.use OmniAuth::Builder do
            Rails.application.credentials.google[:client_id],
            Rails.application.credentials.google[:client_secret]
 end
-OmniAuth.config.allowed_request_methods = [:post]
+OmniAuth.config.allowed_request_methods = [ :post ]

@@ -7,18 +7,18 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_or_initialize_by(uid: auth_hash['uid'])
+    user = User.find_or_initialize_by(uid: auth_hash["uid"])
 
     if user.new_record?
-      user.email_address = auth_hash['info']['email']
-      user.name = auth_hash['info']['name']
+      user.email_address = auth_hash["info"]["email"]
+      user.name = auth_hash["info"]["name"]
       user.save
       start_new_session_for user
       redirect_to after_authentication_url
     end
 
-    if user.email_address != auth_hash['info']['email']
-      user.email_address = auth_hash['info']['email']
+    if user.email_address != auth_hash["info"]["email"]
+      user.email_address = auth_hash["info"]["email"]
       user.save
     end
 
@@ -36,7 +36,7 @@ class SessionsController < ApplicationController
 
   private
     def auth_hash
-      request.env['omniauth.auth']
+      request.env["omniauth.auth"]
     end
 
     def redirect_to_root_if_logged_in
