@@ -25,6 +25,9 @@
 
   <body>
     <main class="container mx-auto mt-28 px-5 flex">
+      <% if authenticated? %>
+        <%= link_to "logout", session_path, method: :delete, data: { "turbo-method": :delete } %>
+      <% end %>
       <%= yield %>
     </main>
   </body>
