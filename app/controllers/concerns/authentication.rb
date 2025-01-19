@@ -25,6 +25,10 @@ module Authentication
       Current.session ||= find_session_by_cookie
     end
 
+    def session_expired?
+      Current.session.updated_at < 1.days.ago
+    end
+
     def find_session_by_cookie
       Session.find_by(id: cookies.signed[:session_id]) if cookies.signed[:session_id]
     end
@@ -48,5 +52,9 @@ module Authentication
     def terminate_session
       Current.session.destroy
       cookies.delete(:session_id)
+    end
+
+    def clear_site_data
+      response.headers["Clear-Site-Data"] = '"cache","storage"'
     end
 end
